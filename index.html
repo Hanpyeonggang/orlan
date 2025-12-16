@@ -928,25 +928,25 @@
           <span class="topics-index__label topics-index__label--primary">Home</span>
         </a>
         <nav aria-label="Manifest 항목">
-          <a href="#topic-distinction">
+          <a href="#1">
             <span class="topics-index__label topics-index__label--primary">1</span>
           </a>
-          <a href="#topic-atheism">
+          <a href="#2">
             <span class="topics-index__label topics-index__label--primary">2</span>
           </a>
-          <a href="#topic-perception">
+          <a href="#3">
             <span class="topics-index__label topics-index__label--primary">3</span>
           </a>
-          <a href="#topic-freedom">
+          <a href="#4">
             <span class="topics-index__label topics-index__label--primary">4</span>
           </a>
-          <a href="#topic-clarification">
+          <a href="#5">
             <span class="topics-index__label topics-index__label--primary">5</span>
           </a>
-          <a href="#topic-style">
+          <a href="#6">
             <span class="topics-index__label topics-index__label--primary">6</span>
           </a>
-          <a href="#topic-epilogue">
+          <a href="#7">
             <span class="topics-index__label topics-index__label--primary">7</span>
           </a>
         </nav>
@@ -1003,7 +1003,7 @@
             </section>
           </div>
         </article>
-        <article class="topic" id="topic-distinction">
+        <article class="topic" id="1">
           <header class="topic__heading">
             <p class="topic__number">02</p>
             <h3>
@@ -1045,7 +1045,7 @@
           </div>
         </article>
 
-        <article class="topic" id="topic-atheism">
+        <article class="topic" id="2">
           <header class="topic__heading">
             <p class="topic__number">03</p>
             <h3>
@@ -1117,7 +1117,7 @@
           </div>
         </article>
 
-        <article class="topic" id="topic-perception">
+        <article class="topic" id="3">
           <header class="topic__heading">
             <p class="topic__number">04</p>
             <h3>
@@ -1161,7 +1161,7 @@
           </div>
         </article>
 
-        <article class="topic" id="topic-freedom">
+        <article class="topic" id="4">
           <header class="topic__heading">
             <p class="topic__number">05</p>
             <h3>
@@ -1200,7 +1200,7 @@
           </div>
         </article>
 
-        <article class="topic" id="topic-clarification">
+        <article class="topic" id="5">
           <header class="topic__heading">
             <p class="topic__number">06</p>
             <h3>
@@ -1244,7 +1244,7 @@
           </div>
         </article>
 
-        <article class="topic" id="topic-style">
+        <article class="topic" id="6">
           <header class="topic__heading">
             <p class="topic__number">07</p>
             <h3>
@@ -1286,7 +1286,7 @@
           </div>
         </article>
 
-        <div id="topic-epilogue"></div>
+        <div id="7" style="height: 0; min-height: 0; padding: 0; margin-top: 10em;"></div>
 
       </div>
     </section>
@@ -1643,19 +1643,19 @@
 
         let positionPercentage;
 
-        if (elementId === 'topic-distinction') {
+        if (elementId === '1') {
           positionPercentage = (rect.left + rect.width * 0.2) / window.innerWidth * 100;
-        } else if (elementId === 'topic-atheism') {
+        } else if (elementId === '2') {
           positionPercentage = (rect.left + rect.width * 0.8) / window.innerWidth * 100;
-        } else if (elementId === 'topic-perception') {
+        } else if (elementId === '3') {
           positionPercentage = (rect.left + rect.width * 0.25) / window.innerWidth * 100;
-        } else if (elementId === 'topic-freedom') {
+        } else if (elementId === '4') {
           positionPercentage = (rect.left + rect.width * 0.75) / window.innerWidth * 100;
-        } else if (elementId === 'topic-clarification') {
+        } else if (elementId === '5') {
           positionPercentage = (rect.left + rect.width * 0.3) / window.innerWidth * 100;
-        } else if (elementId === 'topic-style') {
+        } else if (elementId === '6') {
           positionPercentage = (rect.left + rect.width * 0.45) / window.innerWidth * 100;
-        } else if (elementId === 'topic-epilogue') {
+        } else if (elementId === '7') {
           positionPercentage = (rect.left + rect.width * 0.5) / window.innerWidth * 100;
         } else {
           positionPercentage = (rect.left + rect.width / 2) / window.innerWidth * 100;
@@ -1677,7 +1677,7 @@
         const home = document.getElementById("home");
         const topics = Array.from(document.querySelectorAll("main .topic"));
         const image = document.getElementById("manifesto-image");
-        const epilogue = document.getElementById("topic-epilogue");
+        const epilogue = document.getElementById("7");
 
         // 순서대로 배열 생성 (null 제거)
         const targets = [home, ...topics, image, epilogue].filter(el => el);
@@ -1815,15 +1815,14 @@
             let extraOffset = 0;
 
             // 4번 섹션 (Perception)
-            if (href === "#topic-perception") {
+            if (href === "#3") {
               extraOffset = 145;
             }
             // 2번 섹션 (Atheism)
-            else if (href === "#topic-atheism") {
-              // 2번 메뉴(Atheism) 기본 위치로 복구 (오프셋 0)
-              extraOffset = 0;
+            else if (href === "#2") {
+              // 화면 높이가 1100px 미만인 경우 오프셋을 30으로 조정하여 제 위치에 맞춤
+              extraOffset = window.innerHeight < 1100 ? 30 : 145;
             }
-
             finalOffset += extraOffset;
             const offsetTop = targetTopic.offsetTop - finalOffset;
 
