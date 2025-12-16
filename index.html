@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carnal Art Manifesto</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link href="https://cdn.jsdelivr.net/gh/hyunbinseo/yeolrin@1/index.css" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f2f3f7;
+      --bg-overlay: rgba(242, 243, 247, 0.92);
+      --text: #1f00ff;
+      --muted: rgb(30, 0, 255);
+      --accent: #1f00ff;
+      --divider: rgb(30, 0, 255);
+      --vertical-line-position: 50%;
+    }
+
+
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Yeolrin Myeongjo', serif;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    html::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: var(--vertical-line-position);
+      transform: translateX(-50%);
+      width: 1px;
+      height: 200vh;
+      background: var(--accent);
+      z-index: 0;
+      pointer-events: none;
+      transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body,
+    body * {
+      color: var(--text) !important;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-color: #808080;
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='4' height='4' fill='black'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='4' height='4' fill='black'/%3E%3C/svg%3E");
+      opacity: 0.3;
+      transition: background-color 0.5s ease;
+    }
+
+    .grid-overlay--blue {
+      background-color: var(--accent) !important;
+      opacity: 0.5;
+    }
+
+    .cursor-tag {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translate3d(-999px, -999px, 0);
+      pointer-events: none;
+      display: inline-flex;
+      gap: 0.08em;
+      mix-blend-mode: multiply;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cursor-tag__image {
+      width: clamp(6rem, 12vw, 9rem);
+      height: auto;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-tag__char {
+
+      font-weight: 900;
+      color: var(--accent);
+      font-size: 2rem;
+      text-transform: uppercase;
+      line-height: 1;
+      display: inline-block;
+    }
+
+    .cursor-tag[data-visible="true"] {
+      opacity: 1;
+    }
+
+    /* [복구됨 & 수정됨] 큰 채워진 사각형 애니메이션 */
+    .hero-visual {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      background: rgb(30, 0, 255);
+      border: none;
+      /* 중요: 사진 위로 올라오도록 z-index 설정 (사진은 0) */
+      z-index: 5;
+      /* 중요: 마우스 클릭이 사각형을 통과해 사진에 닿도록 설정 */
+      pointer-events: none;
+      animation: heroFloat 10s ease-in-out infinite;
+      mix-blend-mode: multiply;
+      /* 사진과 겹칠 때 색상 혼합 효과 */
+    }
+
+    @keyframes heroFloat {
+      0% {
+        width: 15vw;
+        aspect-ratio: 1 / 2;
+        transform: translate(-100%, -100%) scale(0.6) rotate(-45deg);
+        opacity: 0.8;
+      }
+
+      25% {
+        width: 30vw;
+        aspect-ratio: 2 / 1;
+        transform: translate(20%, -50%) scale(0.9) rotate(30deg);
+        opacity: 0.9;
+      }
+
+      50% {
+        width: 40vw;
+        aspect-ratio: 1 / 1;
+        transform: translate(0%, 30%) scale(1.2) rotate(90deg);
+        opacity: 0.8;
+      }
+
+      75% {
+        width: 20vw;
+        aspect-ratio: 1 / 1.5;
+        transform: translate(-110%, 40%) scale(0.7) rotate(-10deg);
+        opacity: 0.9;
+      }
+
+      100% {
+        width: 15vw;
+        aspect-ratio: 1 / 2;
+        transform: translate(-100%, -100%) scale(0.6) rotate(-45deg);
+        opacity: 0.8;
+      }
+    }
+
+    .sound-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      color: #808080;
+      font-size: 1.06rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid transparent;
+      background-color: transparent;
+      transition: color 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+    }
+
+    .sound-link:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .sound-links {
+      position: static;
+      top: auto;
+      right: auto;
+      display: inline-flex;
+      gap: 1.2rem;
+      font-size: 1.08rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      z-index: 2;
+      flex-shrink: 0;
+    }
+
+    .sound-link:hover,
+    .sound-link:focus-visible {
+      outline: none;
+      color: var(--accent);
+      opacity: 0.85;
+      background-color: rgba(30, 0, 255, 0.1);
+    }
+
+    .sound-link[aria-disabled="true"] {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      display: block;
+      padding: clamp(3rem, 6vw, 4.5rem) clamp(2.4rem, 5.5vw, 3.4rem) clamp(4rem, 8vw, 6rem);
+      padding-top: clamp(3rem, 6vw, 4.5rem);
+    }
+
+    .manifest-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(2.4rem, 5vw, 3.4rem);
+      align-items: start;
+      overflow-x: hidden;
+    }
+
+    .topics-index {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: clamp(1.2rem, 3vw, 2rem);
+      z-index: 9999;
+      background: var(--bg);
+      backdrop-filter: blur(4px);
+      padding: clamp(0.5rem, 1.5vw, 0.8rem) clamp(1.5rem, 4vw, 2.5rem);
+      border-bottom: 1px solid var(--divider);
+      overflow-x: hidden;
+    }
+
+    .topics-index__home {
+      grid-column: 1;
+      justify-self: start;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      padding: 0.4rem 0.8rem;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .topics-index__home:hover,
+    .topics-index__home:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      opacity: 0.85;
+    }
+
+    .topics-index nav {
+      grid-column: 2;
+      justify-self: center;
+      margin-left: clamp(3rem, 8vw, 6rem);
+      display: flex;
+      gap: clamp(1rem, 2.5vw, 1.5rem);
+      align-items: center;
+      justify-content: center;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .topics-index nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topics-index .sound-links {
+      grid-column: 3;
+      justify-self: end;
+    }
+
+    .topics-index a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.4rem 0.8rem;
+      border-bottom: 2px solid transparent;
+      text-decoration: none;
+      color: inherit;
+      white-space: nowrap;
+      transition: border-color 0.2s ease, opacity 0.2s ease;
+      text-align: center;
+    }
+
+    .topics-index a:hover,
+    .topics-index a:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      opacity: 0.85;
+      outline: none;
+    }
+
+    .topics-index__label {
+      font-size: 0.98rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      display: block;
+    }
+
+    .topics-index nav .topics-index__label {
+      font-size: 1.3rem;
+    }
+
+    .topics-index__label--primary {
+      color: var(--accent);
+    }
+
+    .topics-list {
+      display: block;
+      scroll-snap-type: y mandatory;
+      scroll-padding-top: clamp(6rem, 12vw, 8rem);
+    }
+
+    .topic {
+      display: grid;
+      gap: 0.85rem;
+      padding: 0;
+      border-bottom: none;
+      position: relative;
+      z-index: 1;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      min-height: 100vh;
+      align-content: start;
+    }
+
+    #topic-definition.topic {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topic:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .topic__heading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      z-index: 3;
+      position: relative;
+      min-height: auto;
+      background: var(--bg);
+      border-bottom: 1px solid var(--divider);
+      padding: clamp(1.2rem, 3vw, 2rem) clamp(2.8rem, 6vw, 3.8rem);
+      isolation: isolate;
+    }
+
+    .topic__number {
+      margin: 0;
+      font-size: 0.91rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: absolute;
+      left: clamp(2.8rem, 6vw, 3.8rem);
+    }
+
+    .topic__heading h3 {
+      margin: 0;
+      display: grid;
+      gap: 0.08rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-size: 1.06rem;
+      text-align: center;
+    }
+
+    #topic-definition .topic__heading {
+      padding: 0;
+      border-bottom: 1px solid var(--divider);
+      background: var(--bg);
+      display: block;
+      min-height: auto;
+      grid-template-columns: none;
+      gap: 0;
+      align-content: normal;
+    }
+
+    .manifesto-image {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: -1;
+      perspective: 1800px;
+    }
+
+    .image-grid {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+      gap: 0.5rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+
+    .image-grid img {
+      width: calc((100% - 2rem) / 5);
+      max-width: none;
+      height: auto;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+      display: block;
+      flex-shrink: 1;
+      filter: grayscale(100%) contrast(0.8) brightness(1.2);
+      transition: filter 0.3s ease;
+      cursor: pointer;
+    }
+
+    .image-grid img:hover {
+      filter: none;
+    }
+
+    .topic-definition__text {
+      padding: clamp(1.2rem, 3vw, 2rem) clamp(2.8rem, 6vw, 3.8rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: auto;
+    }
+
+    #topic-definition .topic__number {
+      color: var(--muted) !important;
+      position: absolute;
+      left: clamp(2.8rem, 6vw, 3.8rem);
+    }
+
+    #topic-definition .topic__heading h3 {
+      color: var(--accent) !important;
+      text-align: center;
+    }
+
+    #topic-definition .topic__heading h3 span {
+      color: var(--accent) !important;
+      padding-top: 0;
+      text-shadow: none;
+    }
+
+    .topic__heading span {
+      display: block;
+    }
+
+    .topic__cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: clamp(1.2rem, 2.5vw, 1.8rem);
+      overflow-x: visible;
+      padding-top: 1.5rem;
+      padding-bottom: 0;
+      align-items: stretch;
+      position: relative;
+      z-index: 1;
+      perspective: 1000px;
+    }
+
+    .topic__cards::-webkit-scrollbar {
+      height: 0.4rem;
+    }
+
+    .topic__cards::-webkit-scrollbar-thumb {
+      background: rgba(10, 31, 255, 0.35);
+    }
+
+    .topic-card {
+      scroll-snap-align: none;
+      background: transparent;
+      z-index: 3;
+      border: none;
+      padding: clamp(1.6rem, 0.5vw, 2.2rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      cursor: pointer;
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: auto;
+      min-width: 0;
+      width: auto;
+      opacity: 1;
+      margin: 0;
+      min-height: 100%;
+      height: auto;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      transform-style: preserve-3d;
+    }
+
+    .topic-card>p:not(.topic-card__signature):not(.topic-card__language) {
+      flex-grow: 1;
+    }
+
+    .topic__cards--expanded-mode {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      max-height: none;
+    }
+
+    .topic__cards--expanded-mode .topic-card--expanded {
+      width: 100%;
+      max-width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(4rem, 8vw, 8rem);
+      animation: cardFlip 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes cardFlip {
+      0% {
+        transform: rotateY(0deg);
+      }
+
+      100% {
+        transform: rotateY(360deg);
+      }
+    }
+
+    .topic__cards--expanded-mode .topic-card:not(.topic-card--expanded) {
+      display: none;
+    }
+
+    .topic-card__language {
+      margin: 0;
+      font-size: 0.94rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .topic-card p {
+      margin: 0;
+      font-size: 1.4rem;
+      color: var(--text);
+      opacity: 0.94;
+    }
+
+    .topic-card p+p {
+      margin-top: 0.8rem;
+    }
+
+    .topic-card__signature {
+      margin-top: 1.2rem;
+      font-size: 0.94rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .topic__cards--expanded-mode .topic-card--expanded .topic-card__language {
+      font-size: 1.1rem;
+    }
+
+    .topic__cards--expanded-mode .topic-card--expanded p {
+      font-size: 1.9rem;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto;
+      font-weight: 700;
+    }
+
+    .topic__cards--expanded-mode .topic-card--expanded .topic-card__signature {
+      font-size: 1rem;
+      margin-top: 2rem;
+    }
+
+    .site-footer {
+      position: relative;
+      z-index: 200;
+      padding: clamp(2.4rem, 5vw, 3.4rem) clamp(2.4rem, 5.5vw, 3.4rem);
+      padding-bottom: 10vh;
+      border-top: 1px solid var(--divider);
+      background: var(--bg);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      justify-items: center;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .footer__credits {
+      font-size: 0.98rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .credit-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      align-items: center;
+    }
+
+    .footer__credits p {
+      margin: 0;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    .footer__top-link a {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      text-decoration: none;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid transparent;
+      background-color: transparent;
+      transition: opacity 0.2s ease, background-color 0.2s ease;
+    }
+
+    .footer__top-link a:hover {
+      opacity: 0.85;
+      background-color: rgba(30, 0, 255, 0.1);
+    }
+
+    .footer__top-link a span:last-child {
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 1080px) {
+      .manifest-grid {
+        grid-template-columns: clamp(180px, 24vw, 220px) minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .manifest-grid {
+        grid-template-columns: 1fr;
+        gap: 2.4rem;
+      }
+
+      .topics-index {
+        position: static;
+        gap: 1rem;
+        justify-content: flex-start;
+        overflow-x: auto;
+      }
+
+      .topics-index nav {
+        overflow-x: visible;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .topics-index .sound-links {
+        display: none;
+      }
+
+      .sound-links {
+        position: static;
+        justify-content: center;
+        margin-bottom: 1.6rem;
+        display: inline-flex;
+      }
+
+      .topic__cards {
+        overflow-x: visible;
+      }
+
+      .topic-card {
+        width: auto;
+        flex: 0 0 auto;
+        display: flex;
+      }
+
+      .topic__cards--expanded-mode .topic-card--expanded {
+        padding: clamp(2rem, 5vw, 3rem) clamp(2rem, 5vw, 3rem);
+      }
+
+      .topic__cards--expanded-mode .topic-card--expanded p {
+        font-size: 1.6rem;
+        line-height: 1.7;
+        font-weight: 700;
+      }
+
+      .sound-link {
+        width: auto;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        justify-items: center;
+      }
+
+      .footer__credits {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding-inline: clamp(1.6rem, 4vw, 2.rem);
+      }
+
+      .topics-index nav {
+        gap: 0.6rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .topic-card {
+        transition: none;
+      }
+
+      .topic__cards {
+        transition: none;
+      }
+    }
+
+    /* === Hero Split Screen Layout (Interactive) === */
+    .rotating-main {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      border-bottom: none;
+      z-index: 1;
+    }
+
+    .hero-split-layout {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      /* 중요: 사진 레이어는 0번 */
+      z-index: 0;
+    }
+
+    .split-item {
+      flex: 1;
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .split-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+
+    .split-item:hover img {
+      transform: scale(1.03);
+    }
+
+    /* 이미지 전환 시 페이드 효과 */
+    .split-item.is-changing img {
+      opacity: 0 !important;
+      transition: opacity 0.3s ease;
+    }
+
+    .split-item.left {
+      border-right: 1px solid var(--accent);
+    }
+
+    .split-item.left img {
+      filter: grayscale(100%) contrast(0.9);
+      opacity: 0.7;
+    }
+
+    /* 오른쪽: 흑백 풍경 */
+    .split-item.right {
+      background-color: transparent;
+    }
+
+    .split-item.right img {
+      filter: grayscale(100%) contrast(0.9);
+      opacity: 0.7;
+    }
+
+    .split-item.right .tint-overlay {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .hero-split-layout {
+        flex-direction: column;
+      }
+
+      .split-item {
+        height: 50%;
+        flex: none;
+      }
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: -4rem;
+      font-size: 0.98rem;
+      letter-spacing: 0.2em;
+      opacity: 0.5;
+      z-index: 10;
+    }
+
+    .hero-footer-text {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 5vw;
+      padding-bottom: 2rem;
+      z-index: 10;
+      /* 텍스트는 최상단 */
+      pointer-events: auto;
+    }
+
+    .hero-footer-text span {
+      color: var(--accent);
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1;
+      font-weight: 900;
+      white-space: nowrap;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .hero-footer-text:hover span {
+      opacity: 0.3;
+    }
+
+    .hero-footer-text span:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .topics-index a.nav-link--is-active {
+      font-weight: 700;
+      background-color: rgba(30, 0, 255, 0.1);
+      border-bottom-color: var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+  <section class="rotating-main" id="home">
+
+    <div class="hero-split-layout">
+      <div class="split-item left" id="split-left">
+        <img src="1.jpg" alt="Portrait Visual" id="img-left" />
+      </div>
+      <div class="split-item right" id="split-right">
+        <img src="2.png" alt="Landscape Visual" id="img-right" />
+        <div class="tint-overlay"></div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true"></div>
+
+    <div class="hero-footer-text">
+      <span data-lang="en">Carnal Art</span>
+      <span data-lang="fr">L’Art Charnel</span>
+      <span data-lang="ko">카날 아트</span>
+    </div>
+
+    <div class="scroll-indicator">scroll ↓</div>
+  </section>
+
+  <div class="grid-overlay grid-overlay--blue" aria-hidden="true"></div>
+
+  <div class="cursor-tag" aria-hidden="true">
+    <img src="k.png" alt="" class="cursor-tag__image" />
+    <span class="cursor-tag__char">O</span>
+    <span class="cursor-tag__char">R</span>
+    <span class="cursor-tag__char">L</span>
+    <span class="cursor-tag__char">A</span>
+    <span class="cursor-tag__char">N</span>
+  </div>
+  <main>
+    <section class="manifest-grid" aria-labelledby="manifest-index-title">
+      <aside class="topics-index">
+        <a href="#home" class="topics-index__home">
+          <span class="topics-index__label topics-index__label--primary">Home</span>
+        </a>
+        <nav aria-label="Manifest 항목">
+          <a href="#topic-distinction">
+            <span class="topics-index__label topics-index__label--primary">1</span>
+          </a>
+          <a href="#topic-atheism">
+            <span class="topics-index__label topics-index__label--primary">2</span>
+          </a>
+          <a href="#topic-perception">
+            <span class="topics-index__label topics-index__label--primary">3</span>
+          </a>
+          <a href="#topic-freedom">
+            <span class="topics-index__label topics-index__label--primary">4</span>
+          </a>
+          <a href="#topic-clarification">
+            <span class="topics-index__label topics-index__label--primary">5</span>
+          </a>
+          <a href="#topic-style">
+            <span class="topics-index__label topics-index__label--primary">6</span>
+          </a>
+          <a href="#topic-epilogue">
+            <span class="topics-index__label topics-index__label--primary">7</span>
+          </a>
+        </nav>
+
+        <div class="sound-links" aria-label="SF Soundscape controls">
+          <a href="#" id="sound-play" class="sound-link">Play</a>
+          <a href="#" id="sound-stop" class="sound-link" aria-disabled="true">Stop</a>
+        </div>
+      </aside>
+      <div class="topics-list">
+        <article class="topic" id="topic-definition">
+          <header class="topic__heading">
+            <div class="topic-definition__text">
+              <p class="topic__number">01</p>
+              <h3>
+                <span>Definition</span>
+                <span>Définition</span>
+                <span>정의</span>
+              </h3>
+            </div>
+          </header>
+          <div class="topic__cards" role="list">
+            <section class="topic-card" role="listitem" lang="en">
+              <p>
+                Carnal Art is self-portraiture in the classical sense but made
+                by means of today’s technology. It swings between
+                defiguration and refiguration. Its inscription into the flesh
+                is due to the new possibilities inherent to our age. The body
+                has become a “modified ready-made”, no longer seen as the
+                ideal it once represented, not ready enough to be adhered and
+                signed.
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="fr">
+              <p>
+                L’Art Charnel est un travail d’autoportrait au sens classique,
+                but with technological means which are those of its time. It
+                oscillates between defiguration and refiguration. It is
+                inscribed in the flesh because our era is beginning to provide
+                the possibility. The body becomes a “modified ready-made”
+                because it is no longer this ideal ready-made that simply
+                needs to be signed.
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="ko">
+              <p>
+                카날 아트는 고전적인 의미의 자화상이지만 오늘날의 기술로
+                만들어진 작품입니다. 그것은 탈형상과 재형상 사이를 오갑니다.
+                육체에 새겨진 것은 우리 시대에 내재한 새로운 가능성 때문입니다.
+                신체는 더 이상 한때 대표했던 이상으로 여겨지지 않는 “변형된
+                기성품”이 되었으며, 부착하고 서명할 수 있을 만큼 충분히
+                준비되지 않았습니다.
+              </p>
+            </section>
+          </div>
+        </article>
+        <article class="topic" id="topic-distinction">
+          <header class="topic__heading">
+            <p class="topic__number">02</p>
+            <h3>
+              <span>Distinction</span>
+              <span>Distinction</span>
+              <span>차별화</span>
+            </h3>
+          </header>
+          <div class="topic__cards" role="list">
+            <section class="topic-card" role="listitem" lang="en">
+              <p>
+                Contrary to “Body Art” which is a different matter altogether,
+                Carnal Art does not long for pain, does not seek pain as a
+                source of purification, does not conceive it as a redemption.
+                Carnal Art takes no interest in the result of plastic surgery,
+                but in the process of the surgical-operation-performance and
+                the modified body having become the subject of public debate.
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="fr">
+              <p>
+                Contrairement au “Body Art” dont il se distingue, l’Art Charnel
+                ne désire pas la douleur, ne la recherche pas como source de
+                purification, ne la conçoit pas comme Rédemption. L’Art Charnel
+                ne s’intéresse pas au résultat plastique final, but à
+                l’opération-chirurgicale-performance et au corps modifié, devenu
+                lieu de débat public.
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="ko">
+              <p>
+                전혀 다른 문제인 “바디 아트”와는 달리, 카날 아트는 고통을
+                갈망하지 않으며, 고통을 정화의 원천으로 추구하지 않으며, 고통을
+                구원의 대상으로 생각하지 않습니다. 카날 아트는 성형 수술의
+                결과에는 관심이 없지만, 수술-수술-수행의 과정과 변형된 신체가
+                대중의 논쟁의 대상이 되는 데에는 관심이 있습니다.
+              </p>
+            </section>
+          </div>
+        </article>
+
+        <article class="topic" id="topic-atheism">
+          <header class="topic__heading">
+            <p class="topic__number">03</p>
+            <h3>
+              <span>Atheism</span>
+              <span>Athéisme</span>
+              <span>무신론</span>
+            </h3>
+          </header>
+          <div class="topic__cards" role="list">
+            <section class="topic-card" role="listitem" lang="en">
+              <p>
+                Above all, Carnal Art does not follow Christian Tradition, it
+                resists it! Carnal Art reveals the Christian denial of the
+                “pleasure-body” and exposes its weakness in the face of
+                scientific discovery. All the less does it follow the tradition
+                of suffering and martyrdom, adding rather than taking away, it
+                enhances the faculties instead of reducing them. Carnal Art is
+                no self-mutilation.
+              </p>
+              <p>
+                Carnal Art transforms the body into language. Reversing the
+                biblical idea of the word made flesh, the flesh is made word.
+                Only the voice of Orlan remains unchanged. The artist works on
+                representation. Carnal Art considers the acceptance of the
+                agony of childbirth to be anachronistic and ridiculous. Like
+                Artaud it rejects the divine judgment. Henceforth we shall have
+                epidurals, local anaesthetics and multiple analgesics! Hurray
+                for the morphine! Down with the pain!
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="fr">
+              <p>
+                En clair, l’Art Charnel n’est pas l’héritier de la tradition
+                chrétienne, contre laquelle il lutte ! Il pointe sa négation du
+                “corps-plaisir” et met à nu ses lieux d’effondrement face à la
+                découverte scientifique. L’Art Charnel n’est pas davantage
+                l’héritier d’une hagiographie traversée de décollations et
+                autres martyres, il ajoute plutôt qu’il n’enlève, augmenta les
+                facultés au lieu de les réduire, l’Art Charnel ne se veut pas
+                auto mutilant.
+              </p>
+              <p>
+                L’Art Charnel transforme le corps en langue et renverse le
+                principe chrétien du verbe qui se fait chair au profit de la
+                chair faite verbe ; seule la voix d’Orlan restera inchangée,
+                l’artiste travaille sur la représentation. L’Art Charnel juge
+                anachronique et ridicule le fameux “tu accoucheras dans la
+                douleur”, comme Artaud il veut en finir avec le jugement de
+                Dieu ; désormais nous avons la péridurale et de multiples
+                anesthésiants ainsi que les analgSiques, vive la morphine ! À
+                bas la douleur !
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="ko">
+              <p>
+                무엇보다도 카날 아트는 기독교 전통을 따르지 않고 이에
+                저항합니다! 카날 아트는 “쾌락의 몸”에 대한 기독교적 부정을
+                드러내며 과학적 발견 앞에서 그 약점을 드러냅니다. 고난과 순교의
+                전통을 따르지 않고, 인간의 능력을 없애는 대신 더하고, 능력을
+                감소시키는 대신 강화합니다. 카날 아트는 자기 절단이 아닙니다.
+
+              </p>
+              <p>
+                카날 아트는 신체를 언어로 변형시킵니다. 말씀이 육신이 되었다는 성경의 개념을 뒤집어 육체가 말씀이 됩니다. 오를란의 목소리만 변하지 않습니다. 작가는 표현 작업을 합니다.
+                카날 아트는 출산의 고통을 받아들이는 것을 시대착오적이고 우스꽝스러운 것으로 간주합니다. 신의 심판을 거부한다면 아르토처럼요. 이제부터 우리는 경막외 마취, 국소 마취제, 복합 진통제를
+                사용해야 합니다! 모르핀 만세! (모르핀 만세!). 고통은 이제 그만! (고통은 이제 그만!)
+              </p>
+            </section>
+          </div>
+        </article>
+
+        <article class="topic" id="topic-perception">
+          <header class="topic__heading">
+            <p class="topic__number">04</p>
+            <h3>
+              <span>Perception</span>
+              <span>Perception</span>
+              <span>지각</span>
+            </h3>
+          </header>
+          <div class="topic__cards" role="list">
+            <section class="topic-card" role="listitem" lang="en">
+              <p>
+                I can observe my own body cut open without any suffering! I can
+                see myself all the way down to my viscera, a new mirror stage.
+                I can see to the heart of my lover and its splendid design has
+                got nothing to do with the soppy symbols usually drawn.
+                “Darling, I love your spleen, I love your liver, I adore your
+                pancreas and the line of your femur excites me.”
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="fr">
+              <p>
+                Désormais je peux voir mon propre corps ouvert sans en souffrir
+                ! Je peux me voir jusqu’au fond des entrailles, nouveau stade
+                du miroir. “Je peux voir le cœur de mon amant et son dessin
+                splendide n’a rien à voir avec les mièvrerIES symboliques
+                habitualmente dessinées pour le représenter”. – Chérie, j’aime
+                ta rate, j’aime ton foie, j’adore ton pancréas et la ligne de
+                ton fémur m’excite.
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="ko">
+              <p>
+                고통 없이 잘려나간 내 몸을 관찰할 수 있다! 새로운 거울 무대인
+                내 내장까지 볼 수 있다. 나는 내 연인의 심장을 볼 수 있고 그
+                화려한 디자인은 일반적으로 그려진 시시한 상징과는 아무런 관련이
+                없습니다. “내 사랑, 나는 당신의 비장을 사랑하고, 당신의 간을
+                사랑하고, 당신의 췌장을 좋아하고, 대퇴골의 선이 나를
+                흥분시킵니다.”
+              </p>
+            </section>
+          </div>
+        </article>
+
+        <article class="topic" id="topic-freedom">
+          <header class="topic__heading">
+            <p class="topic__number">05</p>
+            <h3>
+              <span>Freedom</span>
+              <span>Liberté</span>
+              <span>자유</span>
+            </h3>
+          </header>
+          <div class="topic__cards" role="list">
+            <section class="topic-card" role="listitem" lang="en">
+              <p>
+                Carnal Art declares and insists on the individual freedom of
+                the artist. In that sense it resists prejudice and dictate.
+                This is why it has engaged the social and the media (disrupting
+                established ideas and causing scandal), going as far as to the
+                court (in order to change Orlan’s name).
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="fr">
+              <p>
+                L’Art Charnel affirme la liberté individuelle de l’artiste et
+                en ce sens il lutte aussi contre les apriorismes, les diktats ;
+                c’est pourquoi il s’inscrit dans le social, dans les médias (où
+                il fait scandale parce qu’il bouscule les idées reçues) et ira
+                jusqu’au judiciaire.
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="ko">
+              <p>
+                카날 아트는 예술가 개인의 자유를 선언하고 주장합니다. 그런
+                의미에서 편견과 명령에 저항합니다. 그렇기 때문에 사회와
+                미디어(기존 관념을 깨고 스캔들을 일으킴)에 관여하고 법정(오를랑의
+                이름을 바꾸기 위해)까지 나아간 것입니다.
+              </p>
+            </section>
+          </div>
+        </article>
+
+        <article class="topic" id="topic-clarification">
+          <header class="topic__heading">
+            <p class="topic__number">06</p>
+            <h3>
+              <span>Clarification</span>
+              <span>Mise au point</span>
+              <span>해명</span>
+            </h3>
+          </header>
+          <div class="topic__cards" role="list">
+            <section class="topic-card" role="listitem" lang="en">
+              <p>
+                Carnal Art is not against plastic surgery, but opposes its
+                standards such as engraved in the male, but particularly female
+                flesh. It is indispensable for Carnal Art to be feminist. It
+                takes an interest in plastic surgery, but just as well in
+                developments in medicine and biology questioning the status of
+                the body and posing ethical problems.
+              </p>
+            </section>
+            <section class="topic-card" role="listitem" lang="fr">
+              <p>
+                L’Art Charnel n’est pas contre la chirurgie esthétique, mais
+                contre les standards qu’elle véhicule et qui s’inscrivent
+                particulièrement dans les chairs féminines, but also
+                masculines. L’Art Charnel est féministe, c’est nécessaire. L’Art
+                Charnel s’intéresse à la chirurgie esthétique, mais aussi aux
+                techniques de pointe de la médecine et de la biologie qui
+                mettent en question le statut du corps et posent des problèmes
+                éthiques.
+                </key>
+            </section>
+            <section class="topic-card" role="listitem" lang="ko">
+              <p>
+                카날 아트는 성형 수술에 반대하는 것이 아니라 남성, 특히 여성의
+                살에 새겨지는 것과 같은 기준에 반대합니다. 카날 아트가
+                페미니스트가 되는 것은 필수 불가결합니다. 성형 수술에 관심이
+                있지만 신체의 상태에 의문을 제기하고 윤리적 문제를 제기하는 의학
+                및 생물학의 발전에도 관심이 있습니다.
+              </p>
+            </section>
+          </div>
+        </article>
+
+        <article class="topic" id="topic-style">
+          <header class="topic__heading">
+            <p class="topic__number">07</p>
+            <h3>
+              <span>Style</span>
+              <span>Style</span>
+              <span>스타일</span>
+            </h3>
+          </header>
+          <div class="topic__cards" role="list">
+            <section class="topic-card" role="listitem" lang="en">
+              <p>
+                Carnal Art loves mockery and the baroque, the grotesque and
+                other neglected styles since it opposes itself to social
+                pressures the burden of which is carried by both, the human
+                body and the work of art. Carnal Art is anti-formalist and
+                anti-conformist.
+              </p>
+              <p class="topic-card__signature">ORLAN</p>
+            </section>
+            <section class="topic-card" prowess-id="fr" role="listitem" lang="fr">
+              <p>
+                L’Art Charnel aime le baroque, la parodie, le grotesque et les
+                styles laissés-pour-compte, car l'Art Charnel s'oppose aux
+                pressions sociales qui s'exercent tant sur le corps humain que
+                sur le corps des œuvres d'art. L’Art Charnel est
+                anti-formaliste et anticonformiste (on s'en doutait).
+                </SAPN>
+              <p class="topic-card__signature">ORLAN</p>
+            </section>
+            <section class="topic-card" role="listitem" lang="ko">
+              <p>
+                카날 아트는 조롱과 바로크, 그로테스크 및 기타 무시된 스타일을
+                좋아하는데, 이는 인간의 신체와 예술 작품이 모두 부담하는 사회적
+                압력에 반대하기 때문입니다. 카날 아트는 반형식주의와
+                반순응주의입니다.
+              </p>
+              <p class="topic-card__signature">ORLAN</p>
+            </section>
+          </div>
+        </article>
+
+        <div id="topic-epilogue"></div>
+
+      </div>
+    </section>
+
+
+  </main>
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer__credits">
+        <div class="credit-group">
+          <p>Web Site Design<br>Han Pyeonggang</p>
+        </div>
+        <div class="credit-group">
+          <p>Design du Site Web<br>Han Pyeonggang</p>
+        </div>
+        <div class="credit-group">
+          <p>웹사이트 디자인<br>한평강</p>
+        </div>
+      </div>
+      <div class="footer__year">
+        <p>&copy; 2025</p>
+      </div>
+      <div class="footer__top-link">
+        <a href="#" aria-label="Back to top">
+          <span>Top</span>
+          <span>↑</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const ctxState = {
+        ctx: null,
+        nodes: [],
+        playing: false,
+      };
+
+      const createDrone = (freq = 110) => {
+        const osc = ctxState.ctx.createOscillator();
+        const gain = ctxState.ctx.createGain();
+        const filter = ctxState.ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 400;
+        filter.Q.value = 1;
+        gain.gain.value = 0.25;
+
+        osc.type = "sawtooth";
+        osc.frequency.value = freq;
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctxState.ctx.destination);
+
+        osc.start();
+        ctxState.nodes.push(osc, gain, filter);
+      };
+
+      const createArp = (base = 440) => {
+        const scale = [0, 3, 5, 7, 10];
+        let index = 0;
+
+        const interval = setInterval(() => {
+          const osc = ctxState.ctx.createOscillator();
+          const gain = ctxState.ctx.createGain();
+          const note = base * Math.pow(2, scale[index % scale.length] / 12);
+          osc.frequency.value = note;
+          osc.type = "triangle";
+          gain.gain.setValueAtTime(0.001, ctxState.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(
+            0.08,
+            ctxState.ctx.currentTime + 0.02
+          );
+          gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            ctxState.ctx.currentTime + 0.25
+          );
+
+          osc.connect(gain);
+          gain.connect(ctxState.ctx.destination);
+          osc.start();
+          osc.stop(ctxState.ctx.currentTime + 0.3);
+          ctxState.nodes.push(osc, gain);
+          index++;
+        }, 400);
+        ctxState.nodes.push({
+          stop: () => clearInterval(interval)
+        });
+      };
+
+      const createPerc = (rate = 2) => {
+        const interval = setInterval(() => {
+          const noise = ctxState.ctx.createBufferSource();
+          const buffer = ctxState.ctx.createBuffer(
+            1,
+            ctxState.ctx.sampleRate * 0.1,
+            ctxState.ctx.sampleRate
+          );
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < data.length; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / 300);
+          }
+          noise.buffer = buffer;
+
+          const filter = ctxState.ctx.createBiquadFilter();
+          filter.type = "highpass";
+          filter.frequency.value = 1200;
+
+          const gain = ctxState.ctx.createGain();
+          gain.gain.setValueAtTime(0.2, ctxState.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            ctxState.ctx.currentTime + 0.1
+          );
+
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctxState.ctx.destination);
+          noise.start();
+          noise.stop(ctxState.ctx.currentTime + 0.1);
+          ctxState.nodes.push(noise, gain, filter);
+        }, 1000 / rate);
+        ctxState.nodes.push({
+          stop: () => clearInterval(interval)
+        });
+      };
+
+      const playLink = document.getElementById("sound-play");
+      const stopLink = document.getElementById("sound-stop");
+
+      const setControlState = (isPlaying) => {
+        if (!playLink || !stopLink) return;
+        playLink.setAttribute("aria-disabled", isPlaying ? "true" : "false");
+        stopLink.setAttribute("aria-disabled", isPlaying ? "false" : "true");
+      };
+      setControlState(false);
+
+      const teardown = () => {
+        ctxState.nodes.forEach((node) => {
+          try {
+            if (typeof node.stop === "function") {
+              node.stop();
+            }
+          } catch (error) {
+            /* noop */
+          }
+        });
+        ctxState.nodes = [];
+        ctxState.playing = false;
+      };
+
+      playLink?.addEventListener("click", async (event) => {
+        event.preventDefault();
+        if (ctxState.playing) return;
+
+        ctxState.ctx =
+          new (window.AudioContext || window.webkitAudioContext)();
+        await ctxState.ctx.resume();
+        ctxState.playing = true;
+
+        createDrone(110);
+        createDrone(220);
+        createArp(440);
+        createPerc(2.2);
+
+        setControlState(true);
+      });
+
+      stopLink?.addEventListener("click", async (event) => {
+        event.preventDefault();
+        teardown();
+        setControlState(false);
+        if (ctxState.ctx) {
+          await ctxState.ctx.close();
+          ctxState.ctx = null;
+        }
+      });
+
+      document.addEventListener("visibilitychange", async () => {
+        if (!ctxState.ctx) return;
+        if (document.hidden) {
+          await ctxState.ctx.suspend();
+        } else if (ctxState.playing) {
+          await ctxState.ctx.resume();
+        }
+      });
+
+      window.addEventListener("beforeunload", () => {
+        teardown();
+        if (ctxState.ctx && ctxState.ctx.state !== "closed") {
+          ctxState.ctx.close();
+        }
+        setControlState(false);
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      const cursorTag = document.querySelector(".cursor-tag");
+      if (cursorTag) {
+        const chars = Array.from(
+          cursorTag.querySelectorAll(".cursor-tag__char")
+        );
+        const offsets = chars.map((_, index) => ({
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          delay: 16 + index * 14,
+          lastUpdate: performance.now(),
+        }));
+        let targetX = window.innerWidth / 2;
+        let targetY = window.innerHeight / 2;
+        let currentX = targetX;
+        let currentY = targetY;
+        const easing = 0.22;
+        const smoothing = 0.32;
+
+        const render = (timestamp) => {
+          currentX += (targetX - currentX) * easing;
+          currentY += (targetY - currentY) * easing;
+
+          cursorTag.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+          chars.forEach((char, index) => {
+            const state = offsets[index];
+            const timeElapsed = timestamp - state.lastUpdate;
+            state.lastUpdate = timestamp;
+
+            const delayFactor = Math.min(1, timeElapsed / (state.delay + 1));
+            state.vx += (currentX - targetX) * smoothing * delayFactor * 1.05;
+            state.vy += (currentY - targetY) * smoothing * delayFactor * 1.05;
+
+            state.vx *= 0.76;
+            state.vy *= 0.76;
+
+            state.x += state.vx;
+            state.y += state.vy;
+
+            const direction = index % 2 === 0 ? 1 : -1;
+            const wobbleX =
+              Math.sin(timestamp / 300 + index * 0.8) * 9 * direction;
+            const wobbleY =
+              Math.cos(timestamp / 360 + index * 0.7) * 7 * direction;
+
+            char.style.transform = `translate3d(${wobbleX + state.x * 0.16
+              }px, ${wobbleY + state.y * 0.16}px, 0) rotate(${state.vx * 0.16
+              }deg)`;
+          });
+
+          requestAnimationFrame(render);
+        };
+
+        requestAnimationFrame(render);
+
+        const showCursorTag = (event) => {
+          targetX = event.clientX;
+          targetY = event.clientY;
+          cursorTag.dataset.visible = "true";
+        };
+
+        window.addEventListener("pointermove", showCursorTag);
+        window.addEventListener("pointerdown", showCursorTag);
+        window.addEventListener("pointerleave", () => {
+          cursorTag.dataset.visible = "false";
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    (() => {
+      // 1. 모든 topic 섹션을 순회
+      const allTopics = document.querySelectorAll(".topic");
+
+      allTopics.forEach((topic) => {
+        // 2. 각 섹션의 카드 컨테이너와 카드들을 선택
+        const cardContainer = topic.querySelector(".topic__cards");
+        if (!cardContainer) return;
+
+        const cards = cardContainer.querySelectorAll(".topic-card");
+        if (cards.length === 0) return;
+
+        // 3. 확장/축소 로직을 처리하는 함수
+        const handleExpand = (event) => {
+          const clickedCard = event.currentTarget;
+          // 이미 확장되어 있는지 확인
+          const isExpanded =
+            clickedCard.classList.contains("topic-card--expanded");
+
+          if (isExpanded) {
+            // --- 1. 이미 확장된 경우: 닫기 ---
+            clickedCard.classList.remove("topic-card--expanded");
+            cardContainer.classList.remove("topic__cards--expanded-mode");
+          } else {
+            // --- 2. 닫힌 경우: 열기 ---
+            // (A) 먼저 이 섹션의 모든 카드에서 'expanded' 클래스를 제거
+            cards.forEach((c) => c.classList.remove("topic-card--expanded"));
+
+            // (B) 클릭한 카드에 'expanded' 클래스 추가
+            clickedCard.classList.add("topic-card--expanded");
+
+            // (C) 부모 컨테이너에 'expanded-mode' 클래스 추가 (CSS 애니메이션 트리거)
+            cardContainer.classList.add("topic__cards--expanded-mode");
+
+            // (D) 카드가 확장된 후, 컨테이너의 시작점으로 스크롤
+            setTimeout(() => {
+              // 카드가 아닌 *카드 컨테이너*를 기준으로 스크롤
+              cardContainer.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+            }, 150); // 150ms 딜레이 (애니메이션 시간 고려)
+          }
+        };
+
+        // 4. 각 카드에 이벤트 리스너 추가
+        cards.forEach((card) => {
+          // 접근성을 위한 키보드 지원
+          card.setAttribute("role", "button");
+          card.setAttribute("tabindex", "0");
+
+          // 마우스 클릭 이벤트
+          card.addEventListener("click", handleExpand);
+
+          // 키보드(Enter/Space) 이벤트
+          card.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault(); // 스페이스바로 인한 페이지 스크롤 방지
+              handleExpand(event);
+            }
+          });
+        });
+      });
+    })();
+  </script>
+
+  <script>
+    (() => {
+      // 1. 모든 메뉴 링크와 모든 topic 섹션을 선택합니다.
+      const allNavLinks = document.querySelectorAll(
+        ".topics-index nav a, .topics-index__home, .footer__top-link a"
+      );
+
+      // 세로선 위치 업데이트 함수
+      const updateVerticalLine = (targetElement) => {
+        if (!targetElement) {
+          document.documentElement.style.setProperty('--vertical-line-position', '50%');
+          return;
+        }
+
+        const rect = targetElement.getBoundingClientRect();
+        const elementId = targetElement.id;
+
+        let positionPercentage;
+
+        if (elementId === 'topic-distinction') {
+          positionPercentage = (rect.left + rect.width * 0.2) / window.innerWidth * 100;
+        } else if (elementId === 'topic-atheism') {
+          positionPercentage = (rect.left + rect.width * 0.8) / window.innerWidth * 100;
+        } else if (elementId === 'topic-perception') {
+          positionPercentage = (rect.left + rect.width * 0.25) / window.innerWidth * 100;
+        } else if (elementId === 'topic-freedom') {
+          positionPercentage = (rect.left + rect.width * 0.75) / window.innerWidth * 100;
+        } else if (elementId === 'topic-clarification') {
+          positionPercentage = (rect.left + rect.width * 0.3) / window.innerWidth * 100;
+        } else if (elementId === 'topic-style') {
+          positionPercentage = (rect.left + rect.width * 0.45) / window.innerWidth * 100;
+        } else if (elementId === 'topic-epilogue') {
+          positionPercentage = (rect.left + rect.width * 0.5) / window.innerWidth * 100;
+        } else {
+          positionPercentage = (rect.left + rect.width / 2) / window.innerWidth * 100;
+        }
+
+        document.documentElement.style.setProperty('--vertical-line-position', `${positionPercentage}%`);
+      };
+
+      // 2. 현재 보이는 항목을 감지하여 메뉴 활성화 (개선된 로직)
+      const updateActiveLink = () => {
+        const scrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const headerHeight = document.querySelector(".topics-index")?.offsetHeight || 0;
+
+        // [핵심 수정] 감지 기준선 설정: 화면 상단에서 30% 지점
+        const triggerPoint = scrollY + headerHeight + (viewportHeight * 0.3);
+
+        // 모든 감지 대상 수집
+        const home = document.getElementById("home");
+        const topics = Array.from(document.querySelectorAll("main .topic"));
+        const image = document.getElementById("manifesto-image");
+        const epilogue = document.getElementById("topic-epilogue");
+
+        // 순서대로 배열 생성 (null 제거)
+        const targets = [home, ...topics, image, epilogue].filter(el => el);
+
+        let activeSection = targets[0];
+
+        // 위에서부터 순차적으로 검사하여 트리거 포인트보다 위에 있는 '마지막' 섹션을 찾음
+        for (const section of targets) {
+          if (section.offsetTop <= triggerPoint) {
+            activeSection = section;
+          } else {
+            break;
+          }
+        }
+
+        // [예외 처리] 페이지 맨 끝에 도달하면 무조건 마지막 항목 활성화
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
+          activeSection = targets[targets.length - 1];
+        }
+
+        // --- UI 업데이트 ---
+
+        // 모든 링크 비활성화
+        allNavLinks.forEach((link) => {
+          link.classList.remove("nav-link--is-active");
+        });
+
+        // 클릭으로 이동 중이면 클릭한 링크 우선 유지
+        if (clickedHref && !isScrolling && Date.now() < scrollEndTime) {
+          allNavLinks.forEach((link) => {
+            if (link.getAttribute("href") === clickedHref) {
+              link.classList.add("nav-link--is-active");
+            }
+          });
+          return;
+        }
+
+        if (Date.now() >= scrollEndTime || isScrolling) {
+          clickedHref = null;
+        }
+
+        // 감지된 섹션 활성화
+        if (activeSection) {
+          const sectionId = `#${activeSection.id}`;
+          document
+            .querySelectorAll(`a[href="${sectionId}"]`)
+            .forEach((link) => {
+              link.classList.add("nav-link--is-active");
+            });
+
+          // 세로선 및 그리드 색상 업데이트 (스크롤 중이 아닐 때 자연스럽게)
+          if (!isScrolling) {
+            const gridOverlay = document.querySelector(".grid-overlay");
+
+            if (activeSection.id === 'home' || window.scrollY < 10) {
+              document.documentElement.style.setProperty('--vertical-line-position', '50%');
+              gridOverlay?.classList.add("grid-overlay--blue");
+            } else {
+              updateVerticalLine(activeSection);
+              gridOverlay?.classList.remove("grid-overlay--blue");
+            }
+          }
+        }
+      };
+
+      // 3. 링크 클릭 이벤트 (스크롤 이동)
+      let isScrolling = false;
+      let clickedHref = null;
+      let scrollEndTime = 0;
+
+      allNavLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const href = link.getAttribute("href");
+
+          if (href === "#") {
+            event.preventDefault();
+            clickedHref = null;
+            document.documentElement.style.setProperty('--vertical-line-position', '50%');
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+            return;
+          }
+
+          if (href === "#home") {
+            event.preventDefault();
+            isScrolling = true;
+            clickedHref = href;
+            scrollEndTime = Date.now() + 2000;
+
+            allNavLinks.forEach((l) => l.classList.remove("nav-link--is-active"));
+            link.classList.add("nav-link--is-active");
+
+            allNavLinks.forEach((l) => l.classList.remove("nav-link--is-active"));
+            link.classList.add("nav-link--is-active");
+
+            document.documentElement.style.setProperty('--vertical-line-position', '50%');
+            document.querySelector(".grid-overlay")?.classList.add("grid-overlay--blue");
+
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+
+            try {
+              history.pushState(null, "", href);
+            } catch (e) {
+              window.location.hash = href;
+            }
+
+            setTimeout(() => {
+              isScrolling = false;
+            }, 1500);
+            return;
+          }
+
+          const targetTopic = document.getElementById(href.substring(1));
+          if (targetTopic) {
+            event.preventDefault();
+
+            isScrolling = true;
+            clickedHref = href;
+            scrollEndTime = Date.now() + 2000;
+
+            allNavLinks.forEach((l) => l.classList.remove("nav-link--is-active"));
+            link.classList.add("nav-link--is-active");
+
+            updateVerticalLine(targetTopic);
+            document.querySelector(".grid-overlay")?.classList.remove("grid-overlay--blue");
+
+            // [수정된 부분] 헤더 높이 계산 및 섹션별 미세 조정
+            const topicsIndexHeight = document.querySelector(".topics-index").offsetHeight;
+            let finalOffset = topicsIndexHeight;
+            let extraOffset = 0;
+
+            // 4번 섹션 (Perception)
+            if (href === "#topic-perception") {
+              extraOffset = 145;
+            }
+            // 2번 섹션 (Atheism)
+            else if (href === "#topic-atheism") {
+              // 2번 메뉴(Atheism) 기본 위치로 복구 (오프셋 0)
+              extraOffset = 0;
+            }
+
+            finalOffset += extraOffset;
+            const offsetTop = targetTopic.offsetTop - finalOffset;
+
+            window.scrollTo({
+              top: offsetTop,
+              behavior: "smooth"
+            });
+
+            try {
+              history.pushState(null, "", href);
+            } catch (e) {
+              window.location.hash = href;
+            }
+
+            setTimeout(() => {
+              isScrolling = false;
+              updateVerticalLine(targetTopic);
+            }, 1500);
+          }
+        });
+      });
+
+      // 4. 스크롤 이벤트 리스너
+      let scrollTimeout;
+      let lastScrollY = window.scrollY;
+      window.addEventListener("scroll", () => {
+        if (isScrolling) return;
+
+        const scrollDelta = Math.abs(window.scrollY - lastScrollY);
+        if (scrollDelta > 5) {
+          clickedHref = null;
+        }
+        lastScrollY = window.scrollY;
+
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateActiveLink, 50); // 반응 속도 약간 높임
+      }, {
+        passive: true
+      });
+
+      // 5. 초기 실행
+      const currentHash = window.location.hash;
+      if (currentHash) {
+        const targetTopic = document.getElementById(currentHash.substring(1));
+        if (targetTopic) {
+          document
+            .querySelectorAll(`a[href="${currentHash}"]`)
+            .forEach((link) => {
+              link.classList.add("nav-link--is-active");
+            });
+        }
+      }
+
+      updateActiveLink();
+
+      window.addEventListener("popstate", () => {
+        const hash = window.location.hash;
+        if (hash) {
+          const targetTopic = document.getElementById(hash.substring(1));
+          if (targetTopic) {
+            const offsetTop = targetTopic.offsetTop -
+              document.querySelector(".topics-index").offsetHeight - 20;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: "smooth"
+            });
+          }
+        }
+      });
+    })();
+  </script>
+  <script>
+    // Footer Language Click Handler
+    (() => {
+      const footerText = document.querySelector(".hero-footer-text");
+      if (!footerText) return;
+
+      footerText.addEventListener("click", (e) => {
+        const target = e.target.closest("span");
+        if (!target) return;
+
+        const lang = target.dataset.lang;
+        if (!lang) return;
+
+        // Select all topic card containers
+        const topicContainers = document.querySelectorAll(".topic__cards");
+
+        // Check if this language is already active (check the first container)
+        const firstContainer = topicContainers[0];
+        const isAlreadyActive = firstContainer && firstContainer.querySelector(`.topic-card[lang="${lang}"].topic-card--expanded`);
+
+        topicContainers.forEach((container) => {
+          // Find the card with the matching language
+          const targetCard = container.querySelector(`.topic-card[lang="${lang}"]`);
+
+          if (targetCard) {
+            // Collapse all other cards first
+            const allCards = container.querySelectorAll(".topic-card");
+            allCards.forEach(card => card.classList.remove("topic-card--expanded"));
+
+            if (isAlreadyActive) {
+              // If already active, just collapse (remove expanded mode from container)
+              container.classList.remove("topic__cards--expanded-mode");
+            } else {
+              // If not active, expand this one
+              container.classList.add("topic__cards--expanded-mode");
+              targetCard.classList.add("topic-card--expanded");
+            }
+          }
+        });
+      });
+    })();
+  </script>
+
+  <script>
+    // [NEW] Split Screen Image Interaction Script
+    (() => {
+      // 이미지 소스 배열 정의 (1.jpg~5.jpg / 1.png~5.png 사용 가정)
+      const leftImages = [
+        "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"
+      ];
+      const rightImages = [
+        "2.png", "3.png", "4.png", "5.png", "1.png" // 시작을 2.png로 했으므로 순서 조정
+      ];
+
+      // 현재 인덱스 상태
+      let leftIndex = 0;
+      let rightIndex = 0;
+
+      const splitLeft = document.getElementById("split-left");
+      const splitRight = document.getElementById("split-right");
+      const imgLeft = document.getElementById("img-left");
+      const imgRight = document.getElementById("img-right");
+
+      // 왼쪽 영역 클릭 핸들러
+      if (splitLeft && imgLeft) {
+        splitLeft.addEventListener("click", () => {
+          if (splitLeft.classList.contains("is-changing")) return;
+
+          // 페이드 아웃 시작
+          splitLeft.classList.add("is-changing");
+
+          setTimeout(() => {
+            // 이미지 변경
+            leftIndex = (leftIndex + 1) % leftImages.length;
+            imgLeft.src = leftImages[leftIndex];
+
+            // 페이드 인 (클래스 제거)
+            splitLeft.classList.remove("is-changing");
+          }, 300); // CSS transition 시간과 일치
+        });
+      }
+
+      // 오른쪽 영역 클릭 핸들러
+      if (splitRight && imgRight) {
+        splitRight.addEventListener("click", () => {
+          if (splitRight.classList.contains("is-changing")) return;
+
+          // 페이드 아웃 시작
+          splitRight.classList.add("is-changing");
+
+          setTimeout(() => {
+            // 이미지 변경
+            rightIndex = (rightIndex + 1) % rightImages.length;
+            imgRight.src = rightImages[rightIndex];
+
+            // 페이드 인 (클래스 제거)
+            splitRight.classList.remove("is-changing");
+          }, 300); // CSS transition 시간과 일치
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>
